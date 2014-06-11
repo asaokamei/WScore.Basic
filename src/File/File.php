@@ -32,7 +32,7 @@ class File
     static function openTemp()
     {
         $fp = tmpfile();
-        return new OpenForLock( $fp );
+        return new OpenForWrite( $fp );
     }
 
     /**
@@ -52,14 +52,14 @@ class File
     /**
      * @param string $file
      * @param string $mode
-     * @return OpenForLock
+     * @return OpenForWrite
      * @throws \RuntimeException
      */
-    static function openWithLock( $file, $mode=null )
+    static function openForLock( $file, $mode=null )
     {
         if( !file_exists( $file ) ) {
             throw new \RuntimeException( "cannot find file: " . $file );
         }
-        return new OpenForLock( $file, $mode );
+        return new OpenForWrite( $file, $mode );
     }
 }

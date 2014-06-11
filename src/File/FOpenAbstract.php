@@ -45,4 +45,23 @@ abstract class FOpenAbstract implements FOpenInterface
             }
         }
     }
+
+    /**
+     * echo/output all the content from the beginning.
+     *
+     * @param string $char
+     * @return mixed
+     */
+    public function emit( $char=null )
+    {
+        $this->rewind();
+        if( !$char ) {
+            fpassthru( $this->fp );
+        }
+        else {
+            echo mb_convert_encoding(
+                stream_get_contents( $this->fp ), $char, 'UTF-8'
+            );
+        }
+    }
 }

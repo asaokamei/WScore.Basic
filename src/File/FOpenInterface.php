@@ -30,4 +30,12 @@ interface FOpenInterface
      * @return $this
      */
     public function rewind();
+
+    /**
+     * echo/output all the content from the beginning.
+     *
+     * @param string $char
+     * @return mixed
+     */
+    public function emit( $char=null );
 }

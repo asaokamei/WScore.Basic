@@ -3,7 +3,7 @@ namespace WScore\Basic\File;
 
 use RuntimeException;
 
-class OpenForLock extends FOpenAbstract
+class OpenForWrite extends FOpenAbstract
 {
     /**
      * @var string

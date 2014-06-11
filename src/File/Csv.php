@@ -11,6 +11,11 @@ class Csv
     protected $filePointer;
 
     /**
+     * @var FOpenInterface
+     */
+    protected $fOpen;
+
+    /**
      * @var array
      */
     protected $header = array();
@@ -30,6 +35,9 @@ class Csv
      */
     public $count = 0;
 
+    // +----------------------------------------------------------------------+
+    //  construction.
+    // +----------------------------------------------------------------------+
     /**
      * @param resource|FOpenInterface $fp
      * @throws \InvalidArgumentException
@@ -38,13 +46,23 @@ class Csv
     {
         if( $fp instanceof FOpenInterface ) {
             $this->filePointer = $fp->fp();
+            $this->fOpen = $fp;
+
         } elseif( is_resource( $fp ) ) {
             $this->filePointer = $fp;
-        }
-        else {
+
+        } else {
             throw new \InvalidArgumentException('not a resource nor FOpenInterface' );
         }
         setlocale( LC_ALL, 'ja_JP.UTF-8' );
+    }
+
+    /**
+     * @return FOpenInterface
+     */
+    public function fOpen()
+    {
+        return $this->fOpen;
     }
 
     // +----------------------------------------------------------------------+
@@ -124,4 +142,6 @@ class Csv
     {
         fputcsv( $this->filePointer, $data );
     }
+
+    // +----------------------------------------------------------------------+
 }
