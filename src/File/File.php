@@ -62,4 +62,18 @@ class File
         }
         return new OpenForWrite( $file, $mode );
     }
+
+    /**
+     * @param string $file
+     * @param string $from
+     * @return Csv
+     */
+    static function openCsv( $file, $from=null )
+    {
+        $fp = self::openForRead( $file );
+        if( $from ) {
+            $fp->reOpenAsUtf8( $from );
+        }
+        return new Csv( $fp );
+    }
 }
