@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Basic\File;
 
-class OpenForRead
+class OpenForRead extends FOpenAbstract
 {
     /**
      * @var string
@@ -42,12 +42,7 @@ class OpenForRead
      */
     public function open( $file, $mode='rb' )
     {
-        if( !file_exists( $file ) ) {
-            throw new \RuntimeException( "cannot find file: " . $file );
-        }
-        $this->file = $file;
-        $this->fp   = fopen( $file, $mode );
-        return $this;
+        return parent::open( $file, $mode );
     }
 
     /**
@@ -61,7 +56,7 @@ class OpenForRead
     public function reOpenAsUtf8( $from, $to='UTF-8' )
     {
         // get all contents.
-        rewind( $this->fp );
+        $this->rewind();
         $data = stream_get_contents( $this->fp );
         fclose( $this->fp );
 
@@ -83,7 +78,7 @@ class OpenForRead
      */
     public function tempAsUtf8( $from, $to='UTF-8' )
     {
-        rewind( $this->fp );
+        $this->rewind();
         $tempFp   = tmpfile();
         while( $text = fgets( $this->fp ) ) {
             fwrite( $tempFp, mb_convert_encoding( $tempFp, $to, $from ) );
@@ -91,5 +86,15 @@ class OpenForRead
         fclose( $this->fp );
         $tempFp->fp = $tempFp;
         return $this;
+    }
+
+    /**
+     *
+     */
+    public function close()
+    {
+        if( $this->fp ) {
+            fclose( $this->fp );
+        }
     }
 }

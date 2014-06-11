@@ -1,7 +1,9 @@
 <?php
 namespace WScore\Basic\File;
 
-class OpenForLock
+use RuntimeException;
+
+class OpenForLock extends FOpenAbstract
 {
     /**
      * @var string
@@ -43,17 +45,13 @@ class OpenForLock
      * @param string $file
      * @param string $mode
      * @return $this
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function open( $file, $mode='rb+' )
     {
-        if( !file_exists( $file ) ) {
-            throw new \RuntimeException( "cannot find file: " . $file );
-        }
-        $this->file = $file;
-        $this->fp   = fopen( $file, $mode );
+        parent::open( $file, $mode );
         if( !flock( $this->fp, LOCK_EX ) ) {
-            throw new \RuntimeException( 'cannot lock file: ' . $file );
+            throw new RuntimeException( 'cannot lock file: ' . $file );
         }
         rewind( $this->fp );
         $this->lock = true;

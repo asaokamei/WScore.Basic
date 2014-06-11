@@ -31,11 +31,19 @@ class Csv
     public $count = 0;
 
     /**
-     * @param resource $fp
+     * @param resource|FOpenInterface $fp
+     * @throws \InvalidArgumentException
      */
     public function __construct( $fp )
     {
-        $this->filePointer = $fp;
+        if( $fp instanceof FOpenInterface ) {
+            $this->filePointer = $fp->fp();
+        } elseif( is_resource( $fp ) ) {
+            $this->filePointer = $fp;
+        }
+        else {
+            throw new \InvalidArgumentException('not a resource nor FOpenInterface' );
+        }
         setlocale( LC_ALL, 'ja_JP.UTF-8' );
     }
 
