@@ -62,8 +62,6 @@ class OpenForLock extends FOpenAbstract
     /**
      * close file pointer.
      * unlocks the file if locked.
-     *
-     * @return $this
      */
     public function close()
     {
@@ -74,7 +72,6 @@ class OpenForLock extends FOpenAbstract
         }
         fclose( $this->fp );
         $this->fp = null;
-        return $this;
     }
 
     /**
