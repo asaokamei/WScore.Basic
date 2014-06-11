@@ -47,13 +47,16 @@ class Csv
         setlocale( LC_ALL, 'ja_JP.UTF-8' );
     }
 
+    // +----------------------------------------------------------------------+
+    //  reading data from a CSV file.
+    // +----------------------------------------------------------------------+
     /**
      * gets CSV data from file.
      *
      * @throws RuntimeException
      * @return array|bool
      */
-    public function readCsv()
+    public function read()
     {
         /*
          * get csv data
@@ -99,7 +102,7 @@ class Csv
      */
     public function readHeader()
     {
-        $this->header = $this->readCsv( $this->size );
+        $this->header = $this->read( $this->size );
         return $this->header;
     }
 
@@ -109,5 +112,16 @@ class Csv
     public function setMap( $map )
     {
         $this->map = $map;
+    }
+
+    // +----------------------------------------------------------------------+
+    //  writing to a CSV file.
+    // +----------------------------------------------------------------------+
+    /**
+     * @param $data
+     */
+    public function write( $data )
+    {
+        fputcsv( $this->filePointer, $data );
     }
 }

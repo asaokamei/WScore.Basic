@@ -31,7 +31,8 @@ class File
      */
     static function openTemp()
     {
-        return tmpfile();
+        $fp = tmpfile();
+        return new OpenForLock( $fp );
     }
 
     /**

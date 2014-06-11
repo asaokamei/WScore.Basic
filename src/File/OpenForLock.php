@@ -21,12 +21,15 @@ class OpenForLock extends FOpenAbstract
     public $lock = false;
 
     /**
-     * @param null   $file
+     * @param string|resource   $file
      * @param string $mode
      */
-    public function __construct( $file=null, $mode='rb+' )
+    public function __construct( $file=null, $mode=null )
     {
-        if( $file ) {
+        if( is_resource( $file ) ) {
+            $this->fp = $file;
+        }
+        elseif( $file ) {
             $this->open( $file, $mode );
         }
     }
@@ -50,9 +53,19 @@ class OpenForLock extends FOpenAbstract
     public function open( $file, $mode=null )
     {
         if( !$mode ) $mode = 'rb+';
-        parent::open( $file, $mode );
+        return parent::open( $file, $mode );
+    }
+
+    /**
+     * locks this file.
+     *
+     * @return $this
+     * @throws \RuntimeException
+     */
+    public function lock()
+    {
         if( !flock( $this->fp, LOCK_EX ) ) {
-            throw new RuntimeException( 'cannot lock file: ' . $file );
+            throw new RuntimeException( 'cannot lock file: '.$this->file );
         }
         rewind( $this->fp );
         $this->lock = true;
@@ -65,7 +78,7 @@ class OpenForLock extends FOpenAbstract
      */
     public function close()
     {
-        if( !$this->fp ) return $this;
+        if( !$this->fp ) return;
         if( $this->lock ) {
             fflush( $this->fp );
             flock( $this->fp, LOCK_UN );

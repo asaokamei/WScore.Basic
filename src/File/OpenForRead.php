@@ -17,9 +17,12 @@ class OpenForRead extends FOpenAbstract
      * @param null   $file
      * @param string $mode
      */
-    public function __construct( $file=null, $mode='rb' )
+    public function __construct( $file=null, $mode=null )
     {
-        if( $file ) {
+        if( is_resource( $file ) ) {
+            $this->fp = $file;
+        }
+        elseif( $file ) {
             $this->open( $file, $mode );
         }
     }
