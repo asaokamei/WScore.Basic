@@ -25,12 +25,22 @@ class File
     }
 
     /**
+     * opens a temporary file, and returns its file pointer.
+     *
+     * @return resource
+     */
+    static function openTemp()
+    {
+        return tmpfile();
+    }
+
+    /**
      * @param string $file
      * @param string $mode
      * @return OpenForRead
      * @throws \RuntimeException
      */
-    static function openForRead( $file, $mode='rb' )
+    static function openForRead( $file, $mode=null )
     {
         if( !file_exists( $file ) ) {
             throw new \RuntimeException( "cannot find file: " . $file );
@@ -44,7 +54,7 @@ class File
      * @return OpenForLock
      * @throws \RuntimeException
      */
-    static function openWithLock( $file, $mode='rb+' )
+    static function openWithLock( $file, $mode=null )
     {
         if( !file_exists( $file ) ) {
             throw new \RuntimeException( "cannot find file: " . $file );

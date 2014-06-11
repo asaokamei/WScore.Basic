@@ -40,8 +40,9 @@ class OpenForRead extends FOpenAbstract
      * @return $this
      * @throws \RuntimeException
      */
-    public function open( $file, $mode='rb' )
+    public function open( $file, $mode=null )
     {
+        if( !$mode ) $mode = 'rb';
         return parent::open( $file, $mode );
     }
 

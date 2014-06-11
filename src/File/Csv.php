@@ -55,9 +55,6 @@ class Csv
      */
     public function readCsv()
     {
-        if( !$this->filePointer ) {
-            throw new RuntimeException( "Invalid CSV pointer" );
-        }
         /*
          * get csv data
          */

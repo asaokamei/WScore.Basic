@@ -47,8 +47,9 @@ class OpenForLock extends FOpenAbstract
      * @return $this
      * @throws RuntimeException
      */
-    public function open( $file, $mode='rb+' )
+    public function open( $file, $mode=null )
     {
+        if( !$mode ) $mode = 'rb+';
         parent::open( $file, $mode );
         if( !flock( $this->fp, LOCK_EX ) ) {
             throw new RuntimeException( 'cannot lock file: ' . $file );
