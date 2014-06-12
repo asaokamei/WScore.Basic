@@ -39,6 +39,7 @@ interface UserInterface
      * saves the remember-token to the user's data.
      *
      * @param string $token
+     * @return bool
      */
     public function saveRememberToken($token);
 }

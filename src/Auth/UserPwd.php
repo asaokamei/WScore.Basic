@@ -62,10 +62,12 @@ class UserPwd implements UserInterface
      * saves the remember-token to the user's data.
      *
      * @param string $token
+     * @return bool|void
      */
     public function saveRememberToken( $token )
     {
         // do nothing for rememberMe token.
         // cannot save it in this UserPwd.
+        return false;
     }
 }

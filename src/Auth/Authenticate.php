@@ -224,10 +224,11 @@ class Authenticate
     protected function rememberMe( $id )
     {
         $token = $this->calRememberToken();
-        $this->user->saveRememberToken( $token );
-        $time = time() + 60 * 60 * 24 * $this->rememberDays;
-        setcookie( self::REMEMBER_ID, $id, $time, '/', true );
-        setcookie( self::REMEMBER_ME, $token, $time, '/', true );
+        if( $this->user->saveRememberToken( $token ) ) {
+            $time = time() + 60 * 60 * 24 * $this->rememberDays;
+            setcookie( self::REMEMBER_ID, $id, $time, '/', true );
+            setcookie( self::REMEMBER_ME, $token, $time, '/', true );
+        }
     }
 
     /**
