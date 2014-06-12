@@ -72,7 +72,7 @@ class Input
     }
 
     /**
-     * @return null|string
+     * @return bool|string
      */
     public function getRemember()
     {

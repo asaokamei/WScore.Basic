@@ -104,8 +104,12 @@ class Authenticate
                 return $this->isLogin();
             }
         }
-        $this->getSession() ||
-        $this->getRemember();
+        if( $this->getSession() ) {
+            return $this->isLogin();
+        }
+        if( isset( $remember ) && $remember && $this->getRemember() ) {
+            return $this->isLogin();
+        }
         return $this->isLogin();
     }
 
