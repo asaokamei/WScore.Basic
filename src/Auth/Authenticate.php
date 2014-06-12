@@ -86,6 +86,16 @@ class Authenticate
     }
 
     /**
+     * @param string $by
+     * @return bool
+     */
+    public function isLoginBy( $by )
+    {
+        if( !$this->isLogin() ) return false;
+        return $by == $this->loginInfo['by'];
+    }
+
+    /**
      * @return UserInterface
      */
     public function getUser() {
