@@ -65,7 +65,7 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
     {
         $input = $this->input(['auth'=>'login','user'=>'test','pass'=>'test-PW']);
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth( $input );
+        $auth = $this->auth->login( $input );
         $this->assertTrue( $auth->isLogin() );
         $this->assertEquals( 'WScore\Basic\Auth\Authenticate', get_class($auth) );
         $this->assertEquals( 'simple-user', $auth->getUser()->getUserTypeId() );
@@ -78,7 +78,7 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
     {
         $input = $this->input(['auth'=>'login','user'=>'more','pass'=>'more-PW']);
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth( $input );
+        $auth = $this->auth->login( $input );
         $this->assertEquals( 'WScore\Basic\Auth\Authenticate', get_class($auth) );
         $this->assertTrue( $auth->isLogin() );
         $this->assertEquals( 'simple-more', $auth->getUser()->getUserTypeId() );
@@ -93,7 +93,7 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
         // first, login to UserSimple.
         $input = $this->input(['auth'=>'login','user'=>'test','pass'=>'test-PW']);
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth( $input );
+        $auth = $this->auth->login( $input );
         $this->assertEquals( 'simple-user', $auth->getUser()->getUserTypeId() );
         $this->assertTrue( $auth->isLogin() );
         $this->assertTrue( $auth->isLoginBy(Authenticate::BY_POST) );
@@ -105,14 +105,14 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
         // try login without session.
         $this->init();
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth();
+        $auth = $this->auth->login();
         $this->assertFalse( $auth ); // login fails!
 
         // set loginInfo to session
         $this->init([$saveID => $saved ]);
 
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth();
+        $auth = $this->auth->login();
         $this->assertEquals( 'simple-user', $auth->getUser()->getUserTypeId() );
         $this->assertTrue( $auth->isLoginBy(Authenticate::BY_POST) );
     }
@@ -125,7 +125,7 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
         // first, login to UserSimple.
         $input = $this->input(['auth'=>'login','user'=>'more','pass'=>'more-PW']);
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth( $input );
+        $auth = $this->auth->login( $input );
         $this->assertEquals( 'simple-more', $auth->getUser()->getUserTypeId() );
         $this->assertTrue( $auth->isLogin() );
         $this->assertTrue( $auth->isLoginBy(Authenticate::BY_POST) );
@@ -137,14 +137,14 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
         // try login without session.
         $this->init();
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth();
+        $auth = $this->auth->login();
         $this->assertFalse( $auth ); // login fails!
 
         // set loginInfo to session
         $this->init([$saveID => $saved ]);
 
         $this->auth->setUsers( $this->user1, $this->user2 );
-        $auth = $this->auth->getAuth();
+        $auth = $this->auth->login();
         $this->assertEquals( 'simple-more', $auth->getUser()->getUserTypeId() );
         $this->assertTrue( $auth->isLoginBy(Authenticate::BY_POST) );
     }
@@ -156,7 +156,7 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
     function static_user_to_start_chain()
     {
         $auth = Auth::user($this->user1, $this->user2)
-            ->getAuth(['auth'=>'login','user'=>'more','pass'=>'more-PW']);
+            ->login(['auth'=>'login','user'=>'more','pass'=>'more-PW']);
         $this->assertEquals( 'WScore\Basic\Auth\Authenticate', get_class($auth) );
         $this->assertTrue( $auth->isLogin() );
         $this->assertEquals( 'simple-more', $auth->getUser()->getUserTypeId() );

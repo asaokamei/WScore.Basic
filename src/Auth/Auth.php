@@ -90,7 +90,7 @@ class Auth
      * @param Input|array $input
      * @return bool|Authenticate
      */
-    public function getAuth( $input=null )
+    public function login( $input=null )
     {
         if( is_array( $input ) ) {
             $input = $this->forgeInput( $input );
