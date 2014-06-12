@@ -47,7 +47,7 @@ class Authenticate
     /**
      * @param array $session
      */
-    public function __construct($session=array())
+    public function __construct(&$session=array())
     {
         if( $session ) {
             $this->session = & $session;
@@ -171,10 +171,10 @@ class Authenticate
         if ( !isset( $this->session[ $saveId ] ) ) {
             return false;
         }
-        if ( !isset( $this->session[ $saveId ]['type'] ) ) {
+        if ( !isset( $this->session[ $saveId ]['user'] ) ) {
             return false;
         }
-        if( $this->session[ $saveId ][ 'type' ] !== $this->user->getUserTypeId() ) {
+        if( $this->session[ $saveId ][ 'user' ] !== $this->user->getUserTypeId() ) {
             return false;
         }
         $id = $this->session[ $saveId ][ 'id' ];

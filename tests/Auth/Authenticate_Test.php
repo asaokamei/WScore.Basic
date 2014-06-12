@@ -25,7 +25,16 @@ class Authenticate_Test extends \PHPUnit_Framework_TestCase
 
     function setup()
     {
-        $this->session = new \ArrayObject();
+        $this->init();
+    }
+
+    function init( &$session=null )
+    {
+        if( $session ) {
+            $this->session = &$session;
+        } else {
+            $this->session = new \ArrayObject();
+        }
         $this->idList = array(
             'test' => 'test-PW',
             'more' => 'more-PW',
@@ -52,6 +61,8 @@ class Authenticate_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 'tests\Auth\Mocks\UserSimple', get_class($this->auth->getUser() ) );
     }
 
+    // +----------------------------------------------------------------------+
+    // +----------------------------------------------------------------------+
     /**
      * @test
      */
@@ -133,5 +144,43 @@ class Authenticate_Test extends \PHPUnit_Framework_TestCase
 
         // test what's saved in the session.
         $this->assertEquals(0, count($this->session));
+    }
+
+    /**
+     * @test
+     */
+    function getAuth_using_session_data()
+    {
+        // login with valid input (id/pw), and get the loginInfo.
+        $input  = $this->input(['user'=>'test','pass'=>'test-PW','auth'=>'login']);
+        $this->auth->getAuth( $input );
+        $loginInfo = $this->auth->getLoginInfo();
+
+        // set the loginInfo into the session.
+        $saveId = $this->getAuthSaveId();
+        $session = new \ArrayObject( [
+            $saveId => $loginInfo,
+        ]);
+        $this->init($session);
+
+        // OK. now let's login without input.
+        $authOK = $this->auth->getAuth();
+
+        // test auth status
+        $this->assertEquals( true, $authOK );
+        $this->assertEquals( true, $this->auth->isLogin() );
+
+
+        /** @var UserSimple $user */
+        $user = $this->auth->getUser();
+        $this->assertEquals( true, $user->is('test') );
+
+        // get loginInfo
+        $loginInfo = $this->auth->getLoginInfo();
+        $this->assertNotEmpty($loginInfo);
+        $this->assertEquals('test', $loginInfo['id']);
+        $this->assertArrayHasKey('time', $loginInfo);
+        $this->assertEquals(Authenticate::BY_POST, $loginInfo['by']);
+        $this->assertEquals(UserSimple::USER_TYPE, $loginInfo['user']);
     }
 }
