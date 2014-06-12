@@ -33,7 +33,7 @@ class Authenticate_Test extends \PHPUnit_Framework_TestCase
         if( $session ) {
             $this->session = &$session;
         } else {
-            $this->session = new \ArrayObject();
+            $this->session = array();
         }
         $this->idList = array(
             'test' => 'test-PW',

@@ -50,12 +50,12 @@ class Authenticate
     /**
      * @param array $session
      */
-    public function __construct(&$session=array())
+    public function __construct(&$session=null)
     {
-        if( $session ) {
-            $this->session = & $session;
-        } else {
+        if( is_null($session) ) {
             $this->session = & $_SESSION;
+        } else {
+            $this->session = & $session;
         }
     }
 
