@@ -5,6 +5,8 @@ use WScore\Basic\Auth\UserPwd;
 
 class UserSimple extends UserPwd
 {
+    const USER_TYPE = 'simple-user';
+
     /**
      * @param array $idList
      */
@@ -18,7 +20,7 @@ class UserSimple extends UserPwd
      */
     public function getUserTypeId()
     {
-        return 'simple-user';
+        return self::USER_TYPE;
     }
 
     /**

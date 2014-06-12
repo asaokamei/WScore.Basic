@@ -50,9 +50,9 @@ class Authenticate
     public function __construct($session=array())
     {
         if( $session ) {
-            $this->session = &$session;
+            $this->session = & $session;
         } else {
-            $this->session = &$_SESSION;
+            $this->session = & $_SESSION;
         }
     }
 
@@ -81,6 +81,12 @@ class Authenticate
         return $this->user;
     }
 
+    /**
+     * @return array
+     */
+    public function getLoginInfo() {
+        return $this->loginInfo;
+    }
     // +----------------------------------------------------------------------+
     //  authorization
     // +----------------------------------------------------------------------+
