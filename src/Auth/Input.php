@@ -1,6 +1,14 @@
 <?php
 namespace WScore\Basic\Auth;
 
+/**
+ * Class Input
+ * @package WScore\Basic\Auth
+ *
+ * prepare user's ID and PW for Authenticate class.
+ * uses $_POST if $input is not set.
+ *
+ */
 class Input
 {
     protected $name = 'auth';
@@ -13,7 +21,7 @@ class Input
 
     protected $remember = false;
 
-    protected $input = array();
+    protected $input = null;
 
     /**
      * @param array $input
@@ -27,6 +35,24 @@ class Input
             $input[$this->name]===$this->action ) {
             $this->input = $input;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function authLogin()
+    {
+        return isset( $this->input );
+    }
+
+    /**
+     * @param string $remember
+     * @return $this
+     */
+    public function remember( $remember='remember')
+    {
+        $this->remember = $remember;
+        return $this;
     }
 
     /**
