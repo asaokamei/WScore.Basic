@@ -183,4 +183,41 @@ class Authenticate_Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Authenticate::BY_POST, $loginInfo['by']);
         $this->assertEquals(UserSimple::USER_TYPE, $loginInfo['user']);
     }
+
+    /**
+     * @test
+     */
+    function forceAuth_login_successfully()
+    {
+        $authOK = $this->auth->forceAuth('test');
+        // test auth status
+        $this->assertEquals( true, $authOK );
+        $this->assertEquals( true, $this->auth->isLogin() );
+
+
+        /** @var UserSimple $user */
+        $user = $this->auth->getUser();
+        $this->assertEquals( true, $user->is('test') );
+
+        // get loginInfo
+        $loginInfo = $this->auth->getLoginInfo();
+        $this->assertNotEmpty($loginInfo);
+        $this->assertEquals('test', $loginInfo['id']);
+        $this->assertArrayHasKey('time', $loginInfo);
+        $this->assertEquals(Authenticate::BY_FORCED, $loginInfo['by']);
+        $this->assertEquals(UserSimple::USER_TYPE, $loginInfo['user']);
+    }
+
+    /**
+     * @test
+     */
+    function forceAuth_fails_for_bad_id()
+    {
+        $authOK = $this->auth->forceAuth('bad');
+        // test auth status
+        $this->assertEquals( false, $authOK );
+        $this->assertEquals( false, $this->auth->isLogin() );
+        $loginInfo = $this->auth->getLoginInfo();
+        $this->assertEmpty($loginInfo);
+    }
 }

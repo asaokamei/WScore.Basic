@@ -138,8 +138,9 @@ class Authenticate
      */
     public function forceAuth( $id )
     {
-        $this->user->verifyUserId($id);
-        $this->saveOk( $id, self::BY_FORCED );
+        if( $this->user->verifyUserId($id) ) {
+            $this->saveOk( $id, self::BY_FORCED );
+        }
         return $this->isLogin();
     }
 
