@@ -174,4 +174,29 @@ class Auth_Test extends \PHPUnit_Framework_TestCase
     {
         Auth::user();
     }
+
+    /**
+     * @test
+     */
+    function getAuth_login_user1_but_cannot_login_if_user1_not_set()
+    {
+        // first, login to UserSimple.
+        $input = $this->input(['auth'=>'login','user'=>'test','pass'=>'test-PW']);
+        $this->auth->setUsers( $this->user1, $this->user2 );
+        $auth = $this->auth->login( $input );
+        $this->assertEquals( 'simple-user', $auth->getUser()->getUserTypeId() );
+        $this->assertTrue( $auth->isLogin() );
+        $this->assertTrue( $auth->isLoginBy(Authenticate::BY_POST) );
+
+        // set loginInfo to session
+        $saved = $auth->getLoginInfo();
+        $saveID= $this->getAuthSaveId();
+
+        // set loginInfo to session
+        $this->init([$saveID => $saved ]);
+
+        $this->auth->setUsers( $this->user2 );
+        $auth = $this->auth->login();
+        $this->assertFalse( $auth );
+    }
 }
