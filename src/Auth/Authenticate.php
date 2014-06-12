@@ -12,9 +12,6 @@ class Authenticate
     const BY_FORCED   = 'forced';
     const BY_SECRET   = 'secret';
 
-    const REMEMBER_ID = 'remember-id';
-    const REMEMBER_ME = 'remember-md';
-
     /**
      * @var int
      */
@@ -32,14 +29,20 @@ class Authenticate
      */
     protected $loginInfo = array();
 
-    protected $rememberDays = 7;
-
     /**
      * @var UserInterface
      */
     protected $user;
 
+    /**
+     * @var array
+     */
     protected $session = array();
+
+    /**
+     * @var RememberMe
+     */
+    protected $rememberMe;
 
     // +----------------------------------------------------------------------+
     //  get the state of the auth
@@ -54,6 +57,14 @@ class Authenticate
         } else {
             $this->session = & $_SESSION;
         }
+    }
+
+    /**
+     * @param RememberMe $remember
+     */
+    public function setRememberMe( $remember )
+    {
+        $this->rememberMe = $remember;
     }
 
     /**
@@ -153,14 +164,12 @@ class Authenticate
      */
     public function getRemember()
     {
-        if( !isset($_COOKIE[ self::REMEMBER_ID ]) || !isset($_COOKIE[ self::REMEMBER_ME ]) ) {
-            return false;
-        }
-        $id    = $_COOKIE[ self::REMEMBER_ID ];
-        $token = $_COOKIE[ self::REMEMBER_ME ];
-        if ( !$this->user->verifyUserId( $id ) ) {
-            $this->status = self::AUTH_FAILED;
-        } elseif ( $this->user->verifyRemember( $token ) ) {
+        if ( !$this->rememberMe ) return false;
+        if ( !$id = $this->rememberMe->getId() ) return false;
+        if ( !$token = $this->rememberMe->getToken() ) return false;
+        if ( !$this->user->verifyUserId( $id ) ) return false;
+
+        if ( $this->user->verifyRemember( $token ) ) {
             $this->saveOk( $id, self::BY_REMEMBER );
             $this->rememberMe( $id );
         }
@@ -227,11 +236,10 @@ class Authenticate
      */
     protected function rememberMe( $id )
     {
+        if( !$this->rememberMe ) return;
         $token = $this->calRememberToken();
         if( $this->user->saveRememberToken( $token ) ) {
-            $time = time() + 60 * 60 * 24 * $this->rememberDays;
-            setcookie( self::REMEMBER_ID, $id, $time, '/', true );
-            setcookie( self::REMEMBER_ME, $token, $time, '/', true );
+            $this->rememberMe->set( $id, $token );
         }
     }
 
