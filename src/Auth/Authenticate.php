@@ -142,6 +142,9 @@ class Authenticate
      */
     public function getRemember()
     {
+        if( !isset($_COOKIE[ self::REMEMBER_ID ]) || !isset($_COOKIE[ self::REMEMBER_ME ]) ) {
+            return false;
+        }
         $id    = $_COOKIE[ self::REMEMBER_ID ];
         $token = $_COOKIE[ self::REMEMBER_ME ];
         if ( !$this->user->verifyUserId( $id ) ) {
