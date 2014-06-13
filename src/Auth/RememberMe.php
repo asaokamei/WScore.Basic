@@ -55,14 +55,10 @@ class RememberMe
      */
     public function set( $id, $token )
     {
-        if( $this->setCookie ) {
-            $time = time() + 60 * 60 * 24 * $this->rememberDays;
-            setcookie( $this->name_id,  $id,    $time, '/', true );
-            setcookie( $this->token_id, $token, $time, '/', true );
-        } else {
-            $this->cookie[$this->name_id ] = $id;
-            $this->cookie[$this->token_id] = $token;
-        }
+        $time = time() + 60 * 60 * 24 * $this->rememberDays;
+        $func = $this->setCookie;
+        $func( $this->name_id,  $id,    $time, '/', true );
+        $func( $this->token_id, $token, $time, '/', true );
     }
 
     /**
