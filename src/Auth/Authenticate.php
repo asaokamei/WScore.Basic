@@ -128,7 +128,7 @@ class Authenticate
         if( $this->getSession() ) {
             return $this->isLogin();
         }
-        if( isset( $remember ) && $remember && $this->getRemember() ) {
+        if( $this->getRemember() ) {
             return $this->isLogin();
         }
         return $this->isLogin();
@@ -247,8 +247,7 @@ class Authenticate
     protected function rememberMe( $id )
     {
         if( !$this->rememberMe ) return;
-        $token = $this->calRememberToken();
-        if( $this->user->saveRememberToken( $token ) ) {
+        if( $token = $this->user->getRememberToken() ) {
             $this->rememberMe->set( $id, $token );
         }
     }
@@ -258,7 +257,7 @@ class Authenticate
      */
     protected function calRememberToken()
     {
-        return openssl_random_pseudo_bytes(64);
+        return bin2hex(openssl_random_pseudo_bytes(32));
     }
 
     // +----------------------------------------------------------------------+
