@@ -11,12 +11,13 @@ abstract class UserAbstract implements UserInterface
      * returns user type token string to identify the
      * user when using multiple user object.
      *
-     * @throws \BadMethodCallException
+     * default returns string based on the class name.
+     *
      * @return string
      */
     public function getUserTypeId()
     {
-        throw new \BadMethodCallException('must implement this method');
+        return str_replace('\\', '-', get_called_class());
     }
 
     /**

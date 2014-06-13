@@ -10,17 +10,6 @@ class UserPwd extends UserAbstract
     protected $pw;
 
     /**
-     * returns user type token string to identify the
-     * user when using multiple user object.
-     *
-     * @return string
-     */
-    public function getUserTypeId()
-    {
-        return 'UserPwd';
-    }
-
-    /**
      * verifies if $id is valid user's ID.
      *
      * @param string $id
