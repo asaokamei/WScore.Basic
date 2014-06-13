@@ -32,16 +32,6 @@ class UserRemember extends UserPwd
     }
 
     /**
-     * @param string $token
-     * @return bool|void
-     */
-    public function saveRememberToken( $token )
-    {
-        $GLOBALS[ self::USER_TYPE ] = $token;
-        return true;
-    }
-
-    /**
      * @return bool|string
      */
     public function getRememberToken()

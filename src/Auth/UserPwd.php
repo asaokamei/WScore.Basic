@@ -1,7 +1,7 @@
 <?php
 namespace WScore\Basic\Auth;
 
-class UserPwd implements UserInterface
+class UserPwd extends UserAbstract
 {
     protected $idList = array();
 
