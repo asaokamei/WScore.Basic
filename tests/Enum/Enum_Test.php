@@ -1,9 +1,9 @@
 <?php
 namespace tests\EnumTest;
 
-use WScore\Models\Enum\AbstractEnum;
+use WScore\Basic\Enum\AbstractEnum;
 
-require_once( dirname( dirname( __DIR__ ) ) . '/autoload.php' );
+require_once( dirname( __DIR__ ) . '/autoload.php' );
 
 /**
  * Class Gender

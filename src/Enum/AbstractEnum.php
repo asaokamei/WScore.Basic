@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Models\Enum;
+namespace WScore\Basic\Enum;
 
 /**
  * Class Enum
