@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Html;
+namespace WScore\Basic\Html;
 
 /**
  * Class FormString

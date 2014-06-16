@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Html;
+namespace WScore\Basic\Html;
 
 use WScore\Basic\Enum\EnumInterface;
 
@@ -30,7 +30,7 @@ class Form
         if( !static::$element ) {
             static::$element = static::forgeElement();
         }
-        return clone( static::getElement() );
+        return static::$element;
     }
 
     /**
@@ -40,7 +40,7 @@ class Form
      */
     static function __callStatic( $method, $args )
     {
-        $element = static::getElement();
+        $element = clone( static::getElement() );
         $element->type( $method );
         if( isset( $args[0] ) ) {
             $element->name( $args[0] );

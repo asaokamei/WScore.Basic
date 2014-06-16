@@ -1,5 +1,5 @@
 <?php
-namespace WScore\Html;
+namespace WScore\Basic\Html;
 
 use WScore\Basic\Enum\EnumInterface;
 
