@@ -7,6 +7,17 @@ use WScore\Basic\Enum\EnumInterface;
  * Class FormElement
  *
  * @package WScore\Html
+ *
+ * @method FormElement required(bool)
+ * @method FormElement checked(bool)
+ * @method FormElement max(int)
+ * @method FormElement maxlength(int)
+ * @method FormElement multiple(bool)
+ * @method FormElement pattern(string)
+ * @method FormElement placeholder(string)
+ * @method FormElement readonly(bool)
+ * @method FormElement size(bool)
+ * @method FormElement step(bool)
  */
 class FormElement
 {

@@ -40,9 +40,9 @@ class Form_Test extends \PHPUnit_Framework_TestCase
     function static_method_mail_returns_element_type_mail()
     {
         /** @var FormElement $form */
-        $form = Form::mail();
+        $form = Form::email();
         $this->assertEquals('WScore\Basic\Html\FormElement', get_class( $form ));
-        $this->assertEquals( 'mail', $form->getType() );
+        $this->assertEquals( 'email', $form->getType() );
         $this->assertEquals( null, $form->getName() );
         $this->assertEquals( null, $form->getValue() );
     }
