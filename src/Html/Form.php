@@ -1,8 +1,6 @@
 <?php
 namespace WScore\Basic\Html;
 
-use WScore\Basic\Enum\EnumInterface;
-
 class Form
 {
     /**
@@ -35,36 +33,23 @@ class Form
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      * @return FormElement
      */
     static function __callStatic( $method, $args )
     {
         $element = clone( static::getElement() );
         $element->type( $method );
-        if( isset( $args[0] ) ) {
-            $element->name( $args[0] );
-        }
-        static::apply( $element, $args );
-        return $element;
-    }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     * @param array  $options
-     * @return FormElement
-     */
-    static function get( $name, $value, $options )
-    {
-        $element = clone( static::getElement() );
-        if( $value instanceof EnumInterface ) {
-            $element->enum( $value );
-        } else {
-            $element->value( $value );
+        if( $arg = array_shift( $args ) ) {
+            $element->name( $arg );
         }
-        $element->name( $name );
-        static::apply( $element, $options );
+        if( $arg = array_shift( $args ) ) {
+            $element->value( $arg );
+        }
+        if( $arg = array_shift( $args ) ) {
+            static::apply( $element, $arg );
+        }
         return $element;
     }
 

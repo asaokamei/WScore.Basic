@@ -94,7 +94,11 @@ class FormElement
      * @return $this
      */
     public function value( $value ) {
-        $this->value = $value;
+        if( $value instanceof EnumInterface ) {
+            $this->enum( $value );
+        } else {
+            $this->value = $value;
+        }
         return $this;
     }
 
@@ -125,11 +129,13 @@ class FormElement
      * @param string $style
      * @return $this
      */
-    public function style( $key, $style ) {
-        if( $style === false ) {
+    public function style( $key, $style=null ) {
+        if( $key === false ) {
             $this->style[] = array();
-        } else {
+        } elseif( $style ) {
             $this->style[] = "{$key}=\"$style\"";
+        } else {
+            $this->style[] = $key;
         }
         return $this;
     }
@@ -140,8 +146,29 @@ class FormElement
      * @return $this
      */
     public function __call( $method, $args ) {
-        $this->attributes[$method] = $args[0];
+        $method = $this->cleanMethod( $method );
+        if( $method === 'class' ) $method = 'class_';
+        if( method_exists( $this, $method ) ) {
+            return call_user_func_array( [$this,$method], $args );
+        }
+        return $this->setAttribute( $method, $args[0]);
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return $this
+     */
+    protected function setAttribute( $key, $value ) {
+        $this->attributes[$key] = $value;
         return $this;
+    }
+
+    protected function cleanMethod( $method ) {
+        if( false === ( $pos = strpos( $method, '.' ) ) ) {
+            return $method;
+        }
+        return substr( $method, 0, $pos );
     }
 
     /**
@@ -173,7 +200,7 @@ class FormElement
      * @param EnumInterface $enum
      * @return $this
      */
-    public function enum( $enum ) {
+    public function enum( EnumInterface $enum ) {
         $this->lists( $enum::getChoices() );
         $this->value( $enum->get() );
         return $this;
@@ -181,6 +208,14 @@ class FormElement
     // +----------------------------------------------------------------------+
     //  getting information
     // +----------------------------------------------------------------------+
+    /**
+     * @param string $key
+     * @return null|string
+     */
+    public function get( $key ) {
+        return array_key_exists( $key, $this->attributes ) ? $this->attributes[$key] : null;
+    }
+
     /**
      * @return mixed
      */
@@ -193,6 +228,13 @@ class FormElement
      */
     public function getType() {
         return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue() {
+        return $this->value;
     }
 
     /**
