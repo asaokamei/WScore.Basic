@@ -10,7 +10,7 @@ namespace WScore\Basic\Enum;
  *
  *
  */
-abstract class AbstractEnum implements EnumInterface
+abstract class EnumAbstract implements EnumInterface
 {
     /**
      * Enum value

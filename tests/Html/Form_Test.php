@@ -87,6 +87,17 @@ class Form_Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    function getId_return_id()
+    {
+        $form = $this->getElement( 'text', $name, $value, [ 'id'=>'test-id'] );
+        $this->assertEquals( 'text', $form->getType() );
+        $this->assertEquals( $name, $form->getName() );
+        $this->assertEquals( 'test-id', $form->getId() );
+    }
+
+    /**
+     * @test
+     */
     function getId_return_the_name_if_not_set()
     {
         $form = $this->getElement( 'text', $name, $value );

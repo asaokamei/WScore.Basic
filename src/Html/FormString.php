@@ -62,7 +62,7 @@ class FormString
             } else {
                 $value = $element->get( $key );
             }
-            if( $value ) {
+            if( "$value"!="" ) {
                 $property[] = $key . "=\"{$value}\"";
             }
         }
