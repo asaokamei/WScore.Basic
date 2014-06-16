@@ -60,8 +60,11 @@ class Form
     static function apply( $element, $options )
     {
         foreach( $options as $key => $value ) {
-            if( is_numeric( $key ) ) continue;
-            $element->$key( $value );
+            if( is_numeric( $key ) ) {
+                $element->$value();
+            } else {
+                $element->$key( $value );
+            }
         }
     }
 }

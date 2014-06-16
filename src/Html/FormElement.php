@@ -18,6 +18,8 @@ class FormElement
     protected $type = 'text';
     
     protected $name;
+
+    protected $asArray = false;
     
     protected $value;
     
@@ -77,6 +79,16 @@ class FormElement
      */
     public function name( $name ) {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * use name as array (i.e. name="input_name[]")
+     * @param bool $as
+     * @return $this
+     */
+    public function asArray($as=true) {
+        $this->asArray = $as;
         return $this;
     }
 
@@ -151,7 +163,10 @@ class FormElement
         if( method_exists( $this, $method ) ) {
             return call_user_func_array( [$this,$method], $args );
         }
-        return $this->setAttribute( $method, $args[0]);
+        if( isset( $args[0])) {
+            return $this->setAttribute( $method, $args[0]);
+        }
+        return $this->setAttribute( $method, true );
     }
 
     /**
@@ -164,6 +179,10 @@ class FormElement
         return $this;
     }
 
+    /**
+     * @param string $method
+     * @return string
+     */
     protected function cleanMethod( $method ) {
         if( false === ( $pos = strpos( $method, '.' ) ) ) {
             return $method;
@@ -220,6 +239,9 @@ class FormElement
      * @return mixed
      */
     public function getName() {
+        if( $this->asArray ) {
+            return $this->name.'[]';
+        }
         return $this->name;
     }
 
@@ -255,11 +277,22 @@ class FormElement
      * @return string
      */
     public function getAttribute() {
-        $attribute = '';
+        $attribute = [];
         foreach( $this->attributes as $key => $val ) {
-            $attribute .= $key."=\"{$val}\" ";
+            if( is_numeric($key) ) {
+                $attribute[] = $val;
+            }
+            elseif( $val === true ) {
+                $attribute[] = $key;
+            }
+            elseif( $val === false ) {
+                // ignore this attribute.
+            }
+            else {
+                $attribute[] = $key."=\"{$val}\"";
+            }
         }
-        return $attribute;
+        return implode( ' ', $attribute );
     }
 
     /**
