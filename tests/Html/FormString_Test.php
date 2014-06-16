@@ -142,4 +142,13 @@ class FormString_Test extends \PHPUnit_Framework_TestCase
         $html = $form->toString();
         $this->assertEquals( "<textarea name=\"$name\" id=\"$name\">$value</textarea>", $html );
     }
+
+    /**
+     * @test
+     */
+    function textArea_with_width_and_height()
+    {
+        $form = $this->getElement( 'textArea', $name, $value, ['width'=>'100%', 'height'=>'6em'] );
+        $this->assertEquals( "<textarea name=\"$name\" id=\"$name\" style=\"width:100%; height:6em\">$value</textarea>", $form );
+    }
 }

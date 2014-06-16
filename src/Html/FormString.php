@@ -144,7 +144,7 @@ class FormString
     {
         $value = $element->getValue();
         $prop = $this->htmlProperty( $element, 'name', 'id', 'class', 'style' );
-        $html = "<textarea {$prop}>{$value}</textarea>";
+        $html = "<textarea " . "{$prop}>{$value}</textarea>";
         return $html;
     }
 }

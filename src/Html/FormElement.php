@@ -145,7 +145,7 @@ class FormElement
         if( $key === false ) {
             $this->style[] = array();
         } elseif( $style ) {
-            $this->style[] = "{$key}=\"$style\"";
+            $this->style[] = "{$key}:$style";
         } else {
             $this->style[] = $key;
         }
