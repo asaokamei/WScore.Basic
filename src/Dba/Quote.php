@@ -8,6 +8,16 @@ class Quote
      */
     protected $format = '"%s"';
 
+    protected $quote = '"';
+
+    /**
+     * @param string $q
+     */
+    public function setQuote( $q ) {
+        $this->quote = $q;
+        $this->format = $q . '%s' . $q;
+    }
+    
     /**
      * @param string $name
      * @param array|string $separator
@@ -35,6 +45,12 @@ class Quote
      */
     public function quoteString( $name )
     {
+        if( !$name ) return $name;
+        if( $name == '*' ) return $name;
+        if( substr( $name, 0, 1 ) == $this->quote && 
+            substr( $name, -1 ) == $this->quote ) {
+            return $name;
+        }
         return sprintf( $this->format, $name );
     }
 }
