@@ -12,10 +12,6 @@
     "require": {
 
     },
-    "require-dev": {
-        "aura/sqlquery":"2.0.x-dev",
-        "c9s/sqlbuilder": "*"
-    },
     "autoload": {
         "psr-4": {
             "WScore\\Basic\\": "src/"
