@@ -38,7 +38,7 @@ class FormString
     public function input( $element )
     {
         $html = $this->htmlProperty( $element, 'type', 'name', 'value', 'id', 'class', 'style' );
-        $html = '<' . $html . ' />' . "\n";
+        $html = '<input ' . $html . ' />' . "\n";
         $html = $this->addLabel( $html, $element );
         return $html;
     }

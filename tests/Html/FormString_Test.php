@@ -43,7 +43,7 @@ class FormString_Test extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getElement( 'text', $name, $value, ['required'] );
         $html = $form->toString();
-        $this->assertEquals("<type=\"text\" name=\"$name\" value=\"$value\" id=\"$name\" required />\n", $html );
+        $this->assertEquals("<input type=\"text\" name=\"$name\" value=\"$value\" id=\"$name\" required />\n", $html );
     }
 
     /**
@@ -54,7 +54,7 @@ class FormString_Test extends \PHPUnit_Framework_TestCase
         $form = $this->getElement( 'radio', $name, $value );
         $this->assertEquals( "$name-$value", $form->getId() );
         $html = $form->toString();
-        $this->assertEquals("<type=\"radio\" name=\"$name\" value=\"$value\" id=\"$name-$value\" />\n", $html );
+        $this->assertEquals("<input type=\"radio\" name=\"$name\" value=\"$value\" id=\"$name-$value\" />\n", $html );
     }
 
     /**
@@ -73,9 +73,9 @@ class FormString_Test extends \PHPUnit_Framework_TestCase
         $html = $form->toString();
         $this->assertEquals(
             "<ul>\n" .
-            "  <li><label><type=\"radio\" name=\"{$name}\" value=\"$value\" id=\"$name-$value\" checked />\n" .
+            "  <li><label><input type=\"radio\" name=\"{$name}\" value=\"$value\" id=\"$name-$value\" checked />\n" .
             " Checked Value</label></li>\n" .
-            "  <li><label><type=\"radio\" name=\"{$name}\" value=\"$val2\" id=\"$name-$val2\" />\n" .
+            "  <li><label><input type=\"radio\" name=\"{$name}\" value=\"$val2\" id=\"$name-$val2\" />\n" .
             " Not Checked</label></li>\n" .
             "</ul>", $html );
     }
@@ -88,7 +88,7 @@ class FormString_Test extends \PHPUnit_Framework_TestCase
         $form = $this->getElement( 'checkbox', $name, $value );
         $this->assertEquals( "$name-$value", $form->getId() );
         $html = $form->toString();
-        $this->assertEquals("<type=\"checkbox\" name=\"$name\" value=\"$value\" id=\"$name-$value\" />\n", $html );
+        $this->assertEquals("<input type=\"checkbox\" name=\"$name\" value=\"$value\" id=\"$name-$value\" />\n", $html );
     }
 
     /**
@@ -107,9 +107,9 @@ class FormString_Test extends \PHPUnit_Framework_TestCase
         $html = $form->toString();
         $this->assertEquals(
             "<ul>\n" .
-            "  <li><label><type=\"checkbox\" name=\"{$name}[]\" value=\"$value\" id=\"$name-$value\" checked />\n" .
+            "  <li><label><input type=\"checkbox\" name=\"{$name}[]\" value=\"$value\" id=\"$name-$value\" checked />\n" .
             " Checked Value</label></li>\n" .
-            "  <li><label><type=\"checkbox\" name=\"{$name}[]\" value=\"$val2\" id=\"$name-$val2\" />\n" .
+            "  <li><label><input type=\"checkbox\" name=\"{$name}[]\" value=\"$val2\" id=\"$name-$val2\" />\n" .
             " Not Checked</label></li>\n" .
             "</ul>", $html );
     }

@@ -16,7 +16,7 @@ use WScore\Basic\Enum\EnumInterface;
  * @method FormElement pattern(string)
  * @method FormElement placeholder(string)
  * @method FormElement readonly(bool)
- * @method FormElement size(bool)
+ * @method FormElement size(int)
  * @method FormElement step(bool)
  */
 class FormElement
@@ -224,6 +224,20 @@ class FormElement
      */
     public function height( $height ) {
         return $this->style( 'height', $height );
+    }
+
+    /**
+     * @return $this
+     */
+    public function imeOn() {
+        return $this->style( 'ime-mode', 'active' );
+    }
+
+    /**
+     * @return $this
+     */
+    public function imeOff() {
+        return $this->style( 'ime-mode', 'inactive' );
     }
 
     /**

@@ -62,11 +62,11 @@ class FormEnum_Test extends \PHPUnit_Framework_TestCase
         $html = $form->toString();
         $this->assertEquals(
             "<ul>\n" .
-            "  <li><label><type=\"radio\" name=\"enum\" value=\"1\" id=\"enum-1\" checked />\n" .
+            "  <li><label><input type=\"radio\" name=\"enum\" value=\"1\" id=\"enum-1\" checked />\n" .
             " Great!</label></li>\n" .
-            "  <li><label><type=\"radio\" name=\"enum\" value=\"0\" id=\"enum-0\" />\n" .
+            "  <li><label><input type=\"radio\" name=\"enum\" value=\"0\" id=\"enum-0\" />\n" .
             " Just OK</label></li>\n" .
-            "  <li><label><type=\"radio\" name=\"enum\" value=\"-1\" id=\"enum--1\" />\n" .
+            "  <li><label><input type=\"radio\" name=\"enum\" value=\"-1\" id=\"enum--1\" />\n" .
             " Error</label></li>\n" .
             "</ul>", $html );
     }
