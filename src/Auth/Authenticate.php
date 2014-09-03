@@ -108,6 +108,17 @@ class Authenticate
     public function getLoginInfo() {
         return $this->loginInfo;
     }
+
+    /**
+     * logout if logged in.
+     */
+    public function logout() {
+        $saveId = $this->getSaveId();
+        if( isset( $this->session[ $saveId ] ) ) {
+            unset( $this->session[ $saveId ] );
+        }
+    }
+
     // +----------------------------------------------------------------------+
     //  authorization
     // +----------------------------------------------------------------------+
@@ -117,7 +128,7 @@ class Authenticate
      */
     public function getAuth( $input=null )
     {
-        if( $input ) {
+        if( $input && $input->authLogin() ) {
             $id = $input->getId();
             $pw = $input->getPw();
             $remember = $input->getRemember();

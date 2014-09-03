@@ -82,6 +82,10 @@ class Input
         return false;
     }
 
+    /**
+     * @param string $name
+     * @return null
+     */
     protected function get( $name )
     {
         return isset( $this->input[$name] ) ? $this->input[$name] : null;
