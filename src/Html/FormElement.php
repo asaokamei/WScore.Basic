@@ -18,6 +18,8 @@ use WScore\Basic\Enum\EnumInterface;
  * @method FormElement readonly(bool)
  * @method FormElement size(int)
  * @method FormElement step(bool)
+ * @method FormElement class( $class )
+ * @method FormElement onclick( $class )
  */
 class FormElement
 {

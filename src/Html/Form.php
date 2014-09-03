@@ -25,6 +25,9 @@ namespace WScore\Basic\Html;
  * @method static FormElement checkbox( $name = null, $value = null, $option = [ ] )
  * @method static FormElement select( $name = null, $value = null, $option = [ ] )
  * @method static FormElement textArea( $name = null, $value = null, $option = [ ] )
+ * @method static FormElement submit( $name = null, $value = null, $option = [ ] )
+ * @method static FormElement reset( $name = null, $value = null, $option = [ ] )
+ * @method static FormElement button( $name = null, $value = null, $option = [ ] )
  */
 class Form
 {
