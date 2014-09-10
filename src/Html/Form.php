@@ -25,9 +25,9 @@ namespace WScore\Basic\Html;
  * @method static FormElement checkbox( $name = null, $value = null, $option = [ ] )
  * @method static FormElement select( $name = null, $value = null, $option = [ ] )
  * @method static FormElement textArea( $name = null, $value = null, $option = [ ] )
- * @method static FormElement submit( $name = null, $value = null, $option = [ ] )
- * @method static FormElement reset( $name = null, $value = null, $option = [ ] )
- * @method static FormElement button( $name = null, $value = null, $option = [ ] )
+ * @method static FormElement submit( $value = null, $option = [ ] )
+ * @method static FormElement reset( $value = null, $option = [ ] )
+ * @method static FormElement button( $value = null, $option = [ ] )
  */
 class Form
 {
@@ -36,27 +36,47 @@ class Form
      */
     static $element;
 
+    protected static $types = array(
+        'text', 'hidden', 'password', 'checkbox', 'radio',
+        'color', 'date', 'datetime', 'datetime-local',
+        'email', 'month', 'number', 'range',
+        'search', 'tel', 'time', 'url',
+        'week',
+    );
+    
+    protected static $buttons = array(
+        'submit', 'reset', 'button',
+    );
+    
+    protected static $tags = array(
+        'select', 'textarea',
+    );
+    
     /**
      * @param FormString $toString
      * @return FormElement
      */
     static function forgeElement( $toString=null )
     {
-        if( !$toString ) $toString = new FormString();
         return new FormElement( $toString );
     }
 
     /**
-     * always return a brand new FormElement. 
-     * 
+     * always return a brand new FormElement.
+     *
+     * @param string $type
      * @return FormElement
      */
-    static function getElement()
+    static function getElement( $type='input' )
     {
-        if( !static::$element ) {
-            static::$element = static::forgeElement();
+        if( in_array( $type, static::$types ) || 
+            in_array( $type, static::$buttons ) ) {
+            $element = new FormElement();
+            $element->type($type);
+            return $element;
         }
-        return static::$element;
+        $element = new FormElement($type);
+        return $element;
     }
 
     /**
@@ -66,9 +86,21 @@ class Form
      */
     static function __callStatic( $method, $args )
     {
-        $element = clone( static::getElement() );
-        $element->type( $method );
+        $element = static::getElement($method);
 
+        if( in_array( $method, static::$buttons ) ) {
+            return static::formButton( $element, $args );
+        }
+        return static::formInput( $element, $args );
+    }
+
+    /**
+     * @param FormElement $element
+     * @param array $args
+     * @return FormElement
+     */
+    static function formInput( $element, $args )
+    {
         if( $arg = array_shift( $args ) ) {
             $element->name( $arg );
         }
@@ -81,6 +113,22 @@ class Form
         return $element;
     }
 
+    /**
+     * @param FormElement $element
+     * @param array $args
+     * @return FormElement
+     */
+    static function formButton( $element, $args )
+    {
+        if( $arg = array_shift( $args ) ) {
+            $element->value( $arg );
+        }
+        if( $arg = array_shift( $args ) ) {
+            static::apply( $element, $arg );
+        }
+        return $element;
+    }
+    
     /**
      * @param FormElement $element
      * @param array $options

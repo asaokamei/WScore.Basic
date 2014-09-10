@@ -63,8 +63,8 @@ class Form_Test extends \PHPUnit_Framework_TestCase
      */
     function static_method_integer_with_options()
     {
-        $form = $this->getElement( 'integer', $name, $value, ['class'=>'test-class', 'style'=>'test-style']  );
-        $this->assertEquals( 'integer', $form->getType() );
+        $form = $this->getElement( 'number', $name, $value, ['class'=>'test-class', 'style'=>'test-style']  );
+        $this->assertEquals( 'number', $form->getType() );
         $this->assertEquals( $name, $form->getName() );
         $this->assertEquals( $value, $form->getValue() );
         $this->assertEquals( 'test-class', $form->getClass() );

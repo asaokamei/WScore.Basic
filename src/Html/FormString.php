@@ -9,10 +9,42 @@ namespace WScore\Basic\Html;
 class FormString
 {
     /**
+     * @var FormString
+     */
+    static $self;
+
+    /**
+     * @return FormString
+     */
+    public static function getInstance()
+    {
+        if( !static::$self ) {
+            static::$self = new self();
+        }
+        return static::$self;
+    }
+
+    /**
      * @param FormElement $element
      * @return string
      */
     public function toString( $element )
+    {
+        $tag = $element->getTagName();
+        if( $tag == 'input' ) {
+            return $this->inputToString($element);
+        }
+        if( $tag == 'select' ) {
+            return $this->select($element);
+        }
+        return $this->tagToString($element);
+    }
+    
+    /**
+     * @param FormElement $element
+     * @return string
+     */
+    protected function inputToString( $element )
     {
         if( in_array( $element->getType(), ['radio', 'checkbox'] ) ) {
             if( $element->getList() ) {
@@ -22,12 +54,6 @@ class FormString
                 return $this->lists( $element );
             }
         }
-        if( $element->getType() == 'select' ) {
-            return $this->select( $element );
-        }
-        if( $element->getType() == 'textarea' ) {
-            return $this->textArea( $element );
-        }
         return $this->input( $element );
     }
     
@@ -35,7 +61,7 @@ class FormString
      * @param FormElement $element
      * @return string
      */
-    public function input( $element )
+    protected function input( $element )
     {
         $html = $this->htmlProperty( $element, 'type', 'name', 'value', 'id', 'class', 'style' );
         $html = '<input ' . $html . ' />' . "\n";
@@ -91,7 +117,7 @@ class FormString
      * @param FormElement $element
      * @return string
      */
-    public function lists( $element )
+    protected function lists( $element )
     {
         $lists = $element->getList();
         $checkedValue = $element->getValue();
@@ -115,7 +141,7 @@ class FormString
      * @param FormElement $element
      * @return string
      */
-    public function select( $element )
+    protected function select( $element )
     {
         $lists = $element->getList();
         $selectedValue = $element->getValue();
@@ -140,11 +166,12 @@ class FormString
      * @param FormElement $element
      * @return string
      */
-    public function textArea( $element )
+    protected function tagToString( $element )
     {
+        $tag  = $element->getTagName();
         $value = $element->getValue();
         $prop = $this->htmlProperty( $element, 'name', 'id', 'class', 'style' );
-        $html = "<textarea " . "{$prop}>{$value}</textarea>";
+        $html = "<{$tag} " . "{$prop}>{$value}</{$tag}>";
         return $html;
     }
 }

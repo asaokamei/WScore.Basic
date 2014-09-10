@@ -23,10 +23,7 @@ use WScore\Basic\Enum\EnumInterface;
  */
 class FormElement
 {
-    /**
-     * @var FormString
-     */
-    protected $toString;
+    protected $tagName = 'input';
     
     protected $type = 'text';
     
@@ -52,11 +49,10 @@ class FormElement
     //  construction 
     // +----------------------------------------------------------------------+
     /**
-     * @param FormString $string
      */
-    public function __construct( $string )
+    public function __construct($tagName='input')
     {
-        $this->toString = $string;
+        $this->tagName = strtolower( $tagName );
     }
 
     /**
@@ -72,7 +68,8 @@ class FormElement
      */
     public function toString() 
     {
-        return $this->toString->toString( $this );
+        $toString = FormString::getInstance();
+        return $toString->toString( $this );
     }
     // +----------------------------------------------------------------------+
     //  setting up
@@ -262,6 +259,13 @@ class FormElement
         return array_key_exists( $key, $this->attributes ) ? $this->attributes[$key] : null;
     }
 
+    /**
+     * @return string
+     */
+    public function getTagName() {
+        return $this->tagName;
+    }
+    
     /**
      * @return mixed
      */
