@@ -84,11 +84,13 @@ class OpenForRead extends FOpenAbstract
     {
         $this->rewind();
         $tempFp   = tmpfile();
-        while( $text = fgets( $this->fp ) ) {
-            fwrite( $tempFp, mb_convert_encoding( $tempFp, $to, $from ) );
+        while( !feof($this->fp) ) {
+            $text = fgets( $this->fp );
+            fwrite( $tempFp, mb_convert_encoding( $text, $to, $from ) );
         }
         fclose( $this->fp );
-        $tempFp->fp = $tempFp;
+        $this->fp = $tempFp;
+        rewind( $this->fp );
         return $this;
     }
 
