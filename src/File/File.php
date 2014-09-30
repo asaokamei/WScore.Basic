@@ -76,4 +76,18 @@ class File
         }
         return new Csv( $fp );
     }
+
+    /**
+     * opens a SJIS file as UTF-8 (uses temporary file).
+     *
+     * @param string $file
+     * @param string $from
+     * @return resource
+     */
+    static function openSJIS( $file, $from='SJIS-win' )
+    {
+        $file = new OpenForRead( $file );
+        $file->tempAsUtf8( $from );
+        return $file->fp();
+    }
 }
