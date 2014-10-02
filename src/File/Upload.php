@@ -37,7 +37,7 @@ class Upload
         $this->name   = $name;
         $this->config = $_FILES[ $name ];
         $this->config[ self::FILE_LOC ] = $this->config[ 'tmp_name' ];
-        if ( !is_uploaded_file( $this->getFileName() ) ) {
+        if ( $this->passes() && !is_uploaded_file( $this->getFileName() ) ) {
             throw new \RuntimeException( 'not a download file: ' . $name );
         }
     }
