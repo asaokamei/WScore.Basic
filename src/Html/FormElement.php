@@ -49,6 +49,7 @@ class FormElement
     //  construction 
     // +----------------------------------------------------------------------+
     /**
+     * @param string $tagName
      */
     public function __construct($tagName='input')
     {
