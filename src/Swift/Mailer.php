@@ -41,6 +41,14 @@ class Mailer
     }
 
     /**
+     * @return Swift_Mailer
+     */
+    public function getMailer()
+    {
+        return $this->mailer;
+    }
+
+    /**
      * @param string   $text
      * @param callable $callable
      * @return int
